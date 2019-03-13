@@ -1,5 +1,3 @@
-# shortenurl
-
 ## Project setup
 ```
 npm install
@@ -15,14 +13,14 @@ npm run serve
 npm run build
 ```
 
-### Run your tests
+### Run production server
 ```
-npm run test
+npm run server
 ```
 
-### Lints and fixes files
+### Run development server
 ```
-npm run lint
+npm run dev
 ```
 
 ### Customize configuration
