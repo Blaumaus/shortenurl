@@ -6,14 +6,15 @@ const mongoose = require('mongoose')
 const path = require('path')
 
 // DB connection
-//mongoose.connect(process.env.DB_CREDENTIALS, { useNewUrlParser: true })
-//    .then(db => console.log('[OK] DB is connected'))
-//    .catch(e => console.log(`[ERROR] Oops. Something went wrong while connecting to the database... \n ${err}`))
+mongoose.connect(process.env.DB_CREDENTIALS, { useNewUrlParser: true })
+    .then(db => console.log('[OK] DB is connected'))
+    .catch(err => console.log(`[ERROR] Oops. Something went wrong while connecting to the database... \n ${err}`))
 
 // Init express app
 const app = express()
 
 // Set up middleware
+app.use(express.json())
 app.use('/', express.static(path.join(__dirname, '../dist')))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))

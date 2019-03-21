@@ -1,19 +1,25 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const UrlRecordSchema = new Schema({
-    shortUrl: {
+const urlRecordSchema = new Schema({
+    shortUrn: {
     	type: String,
-    	lowercase: true,
-    	trim: true
+        trim: true,
+        required: true
     },
     longUrl: {
     	type: String,
-    	lowercase: true,
-    	trim: true
+        trim: true,
+        required: true
     },
-    ipAddress: String,
-    nameUser: String,
-    countSteps: Number
+    ipAddress: {
+        type: String,
+        required: true
+    },
+    username: String,
+    clicks: {
+        type: Number,
+        default: 0
+    }
 });
-module.exports = mongoose.model('UrlRecord', UrlRecordSchema);
+module.exports = mongoose.model('UrlRecord', urlRecordSchema);
