@@ -27,24 +27,23 @@ router.post('/', async (req, res) => {
     // Generate short URN
     let gen_short = () => {
         let chars_to_gen = 'QqWwEeRrTtYyUuIiOoPpAaSsDdFfGgHhJjKkLlZzXxCcVvBbNnMm0123456789'
-        return new Array(7).fill().map(el => chars_to_gen[Math.floor(Math.random * chars_to_gen.length)]).join('')
+        return new Array(7).fill().map(el => chars_to_gen[Math.floor(Math.random() * chars_to_gen.length)]).join('')
     }
 
     // Check URN eistence in DB
     function check_for_short(urn) {
         UrlRecord.find({ "shortUrn": urn }).exec((err, res) => {
-            return err ? false : true
+            return res.length > 0
         })
     }
 
     // Generate short URN
     while (true) {
         short_urn = gen_short()
-        console.log(short_urn)
         if (check_for_short(short_urn)) continue
         else break
     }
-
+    
     // Set the record fields
     record.ipAddress = ip
     record.shortUrn = short_urn
@@ -52,8 +51,8 @@ router.post('/', async (req, res) => {
 
     // Save created record
     try {
-        console.log('Saving record')
         await record.save()
+        res.json({ state: "success" })
     } catch (err) {
         console.log(`[ERROR] ${err}`)
         res.status(500).send()
