@@ -14,7 +14,6 @@ router.get('/', async(req, res) => {
 // @route   POST api/records
 // @desc    Send URL to server
 // @access  Public
-// @comment DOESN'T WORK
 router.post('/', async (req, res) => {
     // Create new record
     const record = new UrlRecord()
