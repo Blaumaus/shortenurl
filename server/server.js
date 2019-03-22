@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 const path = require('path')
 
 // DB connection
-mongoose.connect(process.env.DB_CREDENTIALS, { useNewUrlParser: true })
+mongoose.connect(process.env.DB_CREDENTIALS, { useNewUrlParser: true, auth: {authdb:"admin"} })
     .then(db => console.log('[OK] DB is connected'))
     .catch(err => console.log(`[ERROR] Oops. Something went wrong while connecting to the database... \n ${err}`))
 

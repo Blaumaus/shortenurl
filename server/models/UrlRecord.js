@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const urlRecordSchema = new Schema({
+const UrlRecord = new Schema({
     shortUrn: {
     	type: String,
         trim: true,
@@ -22,4 +22,4 @@ const urlRecordSchema = new Schema({
         default: 0
     }
 });
-module.exports = mongoose.model('UrlRecord', urlRecordSchema);
+module.exports = mongoose.model('UrlRecord', UrlRecord);

@@ -51,7 +51,7 @@ router.post('/', async (req, res) => {
     // Save created record
     try {
         await record.save()
-        res.json({ state: "success" })
+        res.json({ state: "success", short_urn: short_urn })
     } catch (err) {
         console.log(`[ERROR] ${err}`)
         res.status(500).send()
@@ -63,28 +63,35 @@ router.post('/', async (req, res) => {
 // @access  Public
 router.get('/:url', async (req, res) => {
     // Init long_url variable
-    let long_url = ''
+    let long_url
+    
     // Make a request to DB to increment clicks on URL
-    UrlRecord.find({"shortUrn": req.params.url}, (err, found_obj) => {
+    await UrlRecord.findOne({"shortUrn": req.params.url}, (err, found_obj) => {
         // Check for error
         if (err) {
             console.log(`[ERROR] ${err}`)
-            res.status(404).send()
+            res.status(500).end()
         } else {
-            long_url = found_obj.longUrl
-            found_obj.clicks += 1
-            // Save updated click
-            found_obj.save((err, updated_obj) => {
-                if (err) {
-                    console.log(`[ERROR] ${err}`)
-                    res.status(500).send()
-                }
-            })
+            if (found_obj === null || found_obj.length < 0) {
+                console.log(`[ERROR] ${err}`)
+                res.status(404).end()
+            } else {
+                long_url = found_obj.longUrl
+                found_obj.clicks += 1
+                // Save updated click
+                found_obj.save((err, updated_obj) => {
+                    if (err) {
+                        console.log(`[ERROR] ${err}`)
+                        res.status(500).end()
+                    } //else long_url = found_obj.longUrl
+                })
+            }
         }
     })
 
     // Redirect to long URL
-    res.redirect(long_url)
+    if (long_url) res.redirect(long_url)
+    else res.status(404).end()
 })
 
 // Export
