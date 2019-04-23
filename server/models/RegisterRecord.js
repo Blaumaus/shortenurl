@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const RegisterRecordSchema = new Schema({
+const AccountsSchema = new Schema({
     email: String,
-    passwordHash: String,
-    firstName: String,
-    lastName: String,
+    password: String,
+    username: String,
     ipAddress: String,
 });
-module.exports = mongoose.model('RegisterRecord', RegisterRecordSchema);
+module.exports = mongoose.model('Accounts', AccountsSchema);
