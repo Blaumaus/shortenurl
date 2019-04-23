@@ -4,6 +4,8 @@ const express = require('express')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
 const path = require('path')
+const helmet = require('helmet')
+
 
 // DB connection
 mongoose.connect(process.env.DB_CREDENTIALS, { useNewUrlParser: true, auth: {authdb:"admin"} })
@@ -14,12 +16,18 @@ mongoose.connect(process.env.DB_CREDENTIALS, { useNewUrlParser: true, auth: {aut
 const app = express()
 
 // Set up middleware
+app.use(helmet({
+    referrerPolicy: {
+        policy: 'no-referrer'
+    }
+}))
 app.use(express.json())
 app.use('/', express.static(path.join(__dirname, '../dist')))
+app.use('/', require('./routes/api/redirector'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(morgan('dev'))
-app.use('/api/records', require('./routes/api/router'))
+app.use('/api', require('./routes/api/router'))
 
 // Set up connection port
 app.set('port', process.env.PORT)

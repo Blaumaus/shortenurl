@@ -5,10 +5,10 @@ const UrlRecord = require('../../models/UrlRecord')
 require('dotenv').config()
 
 // @route   GET api/records
-// @desc    Get test messange
+// @desc    Get API description
 // @access  Public
 router.get('/', async(req, res) => {
-    res.send('Main page')
+    res.send('API Description will be there later')
 })
 
 // @route   POST api/records
@@ -23,75 +23,44 @@ router.post('/', async (req, res) => {
     let long_url = req.body.url
     let short_urn = ''
 
-    // Generate short URN
-    let gen_short = () => {
-        let chars_to_gen = 'QqWwEeRrTtYyUuIiOoPpAaSsDdFfGgHhJjKkLlZzXxCcVvBbNnMm0123456789'
-        return new Array(7).fill().map(el => chars_to_gen[Math.floor(Math.random() * chars_to_gen.length)]).join('')
-    }
-
-    // Check URN eistence in DB
-    function check_for_short(urn) {
-        UrlRecord.find({ "shortUrn": urn }).exec((err, res) => {
-            return res.length > 0
-        })
-    }
-
-    // Generate short URN
-    while (true) {
-        short_urn = gen_short()
-        if (check_for_short(short_urn)) continue
-        else break
-    }
-    
-    // Set the record fields
-    record.ipAddress = ip
-    record.shortUrn = short_urn
-    record.longUrl = long_url
-
-    // Save created record
-    try {
-        await record.save()
-        res.json({ state: "success", short_urn: short_urn })
-    } catch (err) {
-        console.log(`[ERROR] ${err}`)
-        res.status(500).send()
-    }
-})
-
-// @route   GET api/records/:url
-// @desc    Redirect to long URL
-// @access  Public
-router.get('/:url', async (req, res) => {
-    // Init long_url variable
-    let long_url
-    
-    // Make a request to DB to increment clicks on URL
-    await UrlRecord.findOne({"shortUrn": req.params.url}, (err, found_obj) => {
-        // Check for error
-        if (err) {
-            console.log(`[ERROR] ${err}`)
-            res.status(500).end()
-        } else {
-            if (found_obj === null || found_obj.length < 0) {
-                console.log(`[ERROR] ${err}`)
-                res.status(404).end()
-            } else {
-                long_url = found_obj.longUrl
-                found_obj.clicks += 1
-                // Save updated click
-                found_obj.save((err, updated_obj) => {
-                    if (err) {
-                        console.log(`[ERROR] ${err}`)
-                        res.status(500).end()
-                    } //else long_url = found_obj.longUrl
-                })
-            }
+    if (!long_url.includes('.')) {
+        console.log(`[ERROR] Wrong URL`)
+        res.json({ state: "error", message: "Not a valid URL." })
+    } else {
+        // Generate short URN
+        let gen_short = () => {
+            let chars_to_gen = 'QqWwEeRrTtYyUuIiOoPpAaSsDdFfGgHhJjKkLlZzXxCcVvBbNnMm0123456789'
+            return new Array(7).fill().map(el => chars_to_gen[Math.floor(Math.random() * chars_to_gen.length)]).join('')
         }
-    })
 
-    // Redirect to long URL
-    if (long_url) res.redirect(long_url)
-    else res.status(404).end()
+        // Check URN existence in DB
+        function check_for_short(urn) {
+            UrlRecord.find({ "shortUrn": urn }).exec((err, res) => {
+                return res.length > 0
+            })
+        }
+
+        // Generate short URN
+        while (true) {
+            short_urn = gen_short()
+            if (check_for_short(short_urn)) continue
+            else break
+        }
+        
+        // Set the record fields
+        record.ipAddress = ip
+        record.shortUrn = short_urn
+        record.longUrl = long_url
+
+        // Save created record
+        try {
+            await record.save()
+            res.json({ state: "success", short_urn: short_urn })
+        } catch (err) {
+            console.log(`[ERROR] ${err}`)
+            res.json({ state: "error", message: "Server error." })
+        }
+    }
 })
 
 // Export
