@@ -9,8 +9,10 @@
     "dev": "nodemon server/server.js"
   },
   "dependencies": {
+    "axios": "0.18.0",
     "dotenv": "7.0.0",
     "express": "4.16.4",
+    "helmet": "3.16.0",
     "mongoose": "5.4.19",
     "morgan": "1.9.1",
     "vue": "^2.6.6",
@@ -18,7 +20,7 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.0",
-    "@vue/cli-service": "^3.5.0",
+    "@vue/cli-service": "3.6.0",
     "nodemon": "^1.18.10",
     "vue-template-compiler": "^2.5.21"
   }
