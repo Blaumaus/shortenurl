@@ -23,7 +23,7 @@ router.post('/', async (req, res) => {
     let long_url = req.body.url
     let short_urn = ''
 
-    if (!long_url.includes('.')) {
+    if ((long_url.indexOf("https://") !== 0 && long_url.indexOf("http://") !== 0) || !long_url.includes('.')) {
         console.log(`[ERROR] Wrong URL`)
         res.json({ state: "error", message: "Not a valid URL." })
     } else {
@@ -51,6 +51,7 @@ router.post('/', async (req, res) => {
         record.ipAddress = ip
         record.shortUrn = short_urn
         record.longUrl = long_url
+        record.useragent = req.headers['user-agent']
 
         // Save created record
         try {

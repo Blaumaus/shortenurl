@@ -17,7 +17,7 @@
           <input
             v-model="url"
             id="url"
-            type="text"
+            type="url"
             placeholder="Write a link to short it"
             value=""
             autocomplete="off"
@@ -29,15 +29,15 @@
         </form>
         <p>
           By clicking SHORT, you are agreeing to our
-          <a href="#">Terms of Service</a> and
-          <a href="#">Privacy Policy</a>
+          <a href="./tos.html" target="_blank">Terms of Service</a> and
+          <a href="./tos.html" target="_blank">Privacy Policy</a>
         </p>
       </div>
       <div id="error">
         <p>Unable to short your link. It's not a valid URL.</p>
       </div>
       <div id="success">
-        <p>Your short link: <span id="readyUrl" @click="copyUrl" title="Click to copy">https://uri.vg/<span id="link"></span></span></p>
+        <p>Your short link: <span id="readyUrl" @click="copyUrl" title="Click to copy">http://165.22.84.213/<span id="link"></span></span></p>
       </div>
     </div>
     <!-- <footer></footer> -->
@@ -57,7 +57,7 @@ export default {
   methods: {
     async sendData() { 
       await axios({
-        url: 'http://localhost:3000/api',
+        url: 'http://165.22.84.213/api',
         method: 'post',
         data: {
           url: this.url
@@ -84,9 +84,7 @@ export default {
           let errorbox = document.querySelector("#error")
           document.querySelector('#success').style.display = 'none'
           errorbox.style.display = 'grid'
-          setTimeout(() => {
-            errorbox.style.display = 'none'
-          }, 3000)
+          setTimeout(() => { errorbox.style.display = 'none' }, 3000)
         })();
       })
     },
@@ -95,17 +93,17 @@ export default {
       let url = document.querySelector('#readyUrl')
       let urn = document.querySelector('#link').innerHTML
       let link = `https://uri.vg/${urn}`
-      navigator.clipboard.writeText(link).then(function() {
-        url.style.color = 'hsl(229, 100%, 23%)'
-        setTimeout(() => {
-          url.style.color = 'hsl(224, 71%, 33%)'
-        }, 1000)
-      }, function() {
-        url.style.color = 'hsl(0, 84%, 48%)'
-        setTimeout(() => {
-          url.style.color = 'hsl(224, 71%, 33%)'
-        }, 1000)
-      });
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(link).then(() => {
+          // Copy success
+          url.style.color = 'hsl(229, 100%, 23%)'
+          setTimeout(() => { url.style.color = 'hsl(224, 71%, 33%)' }, 1000)
+        }, () => {
+          // Copy failture
+          url.style.color = 'hsl(0, 84%, 48%)'
+          setTimeout(() => { url.style.color = 'hsl(224, 71%, 33%)' }, 1000)
+        })
+      }
     }
   }
 }

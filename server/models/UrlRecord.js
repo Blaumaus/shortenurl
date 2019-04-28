@@ -17,9 +17,14 @@ const UrlRecord = new Schema({
         required: true
     },
     username: String,
+    useragent: String,
     clicks: {
         type: Number,
         default: 0
+    },
+    creationDate: { 
+        type: Date, 
+        default: Date.now
     }
 });
 module.exports = mongoose.model('UrlRecord', UrlRecord);
