@@ -30,3 +30,5 @@ npm run server
 ```
 npm run dev
 ```
+
+## Project license is located [here](https://github.com/Ookldev/shortenurl/blob/master/LICENSE)
