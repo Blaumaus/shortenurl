@@ -1,6 +1,14 @@
+In the root of the project you need to have `.env` file which contains:
+
+```
+PORT=3000
+DB_CREDENTIALS=mongodb://LOGIN:PASSWORD@CLUSTER_NAME/DB_NAME?ssl=true&replicaSet=mycluster-shard-0&authSource=admin&retryWrites=true
+```
+where PORT is port which server will listen and DB_CREDENTIALS is link to your database.
+
 ## Project setup
 ```
-npm install
+npm i
 ```
 
 ### Compiles and hot-reloads for development
@@ -22,6 +30,3 @@ npm run server
 ```
 npm run dev
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
