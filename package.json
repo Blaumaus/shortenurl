@@ -11,15 +11,15 @@
     "prepare": "npm run snyk-protect"
   },
   "dependencies": {
-    "axios": "0.18.0",
+    "axios": "0.18.1",
     "dotenv": "7.0.0",
     "express": "4.16.4",
-    "helmet": "3.16.0",
-    "mongoose": "5.4.19",
+    "helmet": "3.21.1",
+    "mongoose": "5.7.5",
     "morgan": "1.9.1",
     "vue": "^2.6.6",
     "vue-router": "^3.0.1",
-    "snyk": "^1.189.0"
+    "snyk": "^1.236.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.0",
