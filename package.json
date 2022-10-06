@@ -19,7 +19,7 @@
     "morgan": "1.9.1",
     "vue": "^2.6.6",
     "vue-router": "^3.0.1",
-    "snyk": "^1.236.1"
+    "snyk": "^1.1024.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.0",
